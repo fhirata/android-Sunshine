@@ -15,7 +15,7 @@
         android:summary="@string/pref_metric"
         android:entries="@array/unit_preferences"
         android:entryValues="@array/unit_values"
-        android:defaultValue="true"
+        android:defaultValue="string/pref_metric"
         />
 
 </PreferenceScreen>

@@ -215,7 +215,7 @@ public class ForecastFragment extends Fragment {
             int temperatureUnitValue = WeatherInfo.CELCIUS;
 
             if (settings.contains(getString(R.string.pref_units))) {
-                String preferenceValue = settings.getString(getString(R.string.pref_units), "0"); // default "0" -> CELCIUS
+                String preferenceValue = settings.getString(getString(R.string.pref_units), getString(R.string.pref_metric)); // default "0" -> CELCIUS
                 temperatureUnitValue = new Integer(preferenceValue).intValue();
             }
 

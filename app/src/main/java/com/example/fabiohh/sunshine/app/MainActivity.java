@@ -1,13 +1,19 @@
 package com.example.fabiohh.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    public final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +40,31 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+        switch (id) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.action_map:
+                openPreferredLocationInMap();
+                return true;
+            default:
+                Log.e(TAG, "No action for the selected menu item.");
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-            return true;
+    private void openPreferredLocationInMap() {
+        String zipcode = "";
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (preferences.contains(getString(R.string.pref_location_key))) {
+            zipcode = preferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
         }
 
-        return super.onOptionsItemSelected(item);
+        Uri gmmIntentUri = Uri.parse("geo:0,0?q="+zipcode);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
     }
 }
