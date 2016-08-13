@@ -31,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by fabiohh on 8/2/16.
@@ -107,10 +108,10 @@ public class ForecastFragment extends Fragment {
         updateWeather();
     }
 
-    private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    private class FetchWeatherTask extends AsyncTask<String, Void, ArrayList<WeatherInfo>> {
 
         @Override
-        protected String[] doInBackground(String... params) {
+        protected ArrayList<WeatherInfo> doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -203,24 +204,39 @@ public class ForecastFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
+        protected void onPostExecute(ArrayList<WeatherInfo> weatherInfoArrayList) {
             mForecastAdapter.clear();
-            mForecastAdapter.addAll(strings);
-            super.onPostExecute(strings);
-        }
 
-        private String formatHighLows(double high, double low) {
-            long roundedHigh = Math.round(high);
-            long roundedLow = Math.round(low);
+            String[] stringArray = new String[weatherInfoArrayList.size()];
+            Iterator<WeatherInfo> iterator = weatherInfoArrayList.iterator();
+            int i = 0;
 
-            String highLowStr = roundedHigh + "/" + roundedLow;
-            return highLowStr;
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            int temperatureUnitValue = WeatherInfo.CELCIUS;
+
+            if (settings.contains(getString(R.string.pref_units))) {
+                String preferenceValue = settings.getString(getString(R.string.pref_units), "0"); // default "0" -> CELCIUS
+                temperatureUnitValue = new Integer(preferenceValue).intValue();
+            }
+
+            Log.d(LOG_TAG, "type: " + temperatureUnitValue);
+
+            // TODO: Apply stream.map in the future
+            while (iterator.hasNext()) {
+                WeatherInfo weatherInfo = iterator.next();
+                stringArray[i++] = weatherInfo.getFormated(temperatureUnitValue);
+            }
+
+            mForecastAdapter.addAll(stringArray);
+
+            super.onPostExecute(weatherInfoArrayList);
         }
 
         private String getReadableDateString(long time) {
             SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
             return shortenedDateFormat.format(time);
         }
+
 
         /**
          * Take the String representing the complete forecast in JSON Format and
@@ -229,7 +245,7 @@ public class ForecastFragment extends Fragment {
          * Fortunately parsing is easy:  constructor takes the JSON string and converts it
          * into an Object hierarchy for us.
          */
-        private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
+        private ArrayList<WeatherInfo> getWeatherDataFromJson(String forecastJsonStr, int numDays)
                 throws JSONException {
 
             // These are the names of the JSON objects that need to be extracted.
@@ -260,7 +276,7 @@ public class ForecastFragment extends Fragment {
             // now we work exclusively in UTC
             dayTime = new Time();
 
-            String[] resultStrs = new String[numDays];
+            ArrayList<WeatherInfo> weatherInfoResult = new ArrayList<WeatherInfo>(numDays);
             for(int i = 0; i < weatherArray.length(); i++) {
                 // For now, using the format "Day, description, hi/low"
                 String day;
@@ -285,17 +301,17 @@ public class ForecastFragment extends Fragment {
                 // Temperatures are in a child object called "temp".  Try not to name variables
                 // "temp" when working with temperature.  It confuses everybody.
                 JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
+
                 double high = temperatureObject.getDouble(OWM_MAX);
                 double low = temperatureObject.getDouble(OWM_MIN);
 
-                highAndLow = formatHighLows(high, low);
-                resultStrs[i] = day + " - " + description + " - " + highAndLow;
+                weatherInfoResult.add(new WeatherInfo(day, description, high, low));
             }
 
 //            for (String s : resultStrs) {
 //                Log.v(LOG_TAG, "Forecast entry: " + s);
 //            }
-            return resultStrs;
+            return weatherInfoResult;
 
         }
     }

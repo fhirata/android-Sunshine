@@ -9,4 +9,13 @@
         android:defaultValue="@string/pref_location_default"
         android:singleLine="true" />
 
+    <ListPreference
+        android:key="@string/pref_units"
+        android:title="@string/pref_temp_title"
+        android:summary="@string/pref_metric"
+        android:entries="@array/unit_preferences"
+        android:entryValues="@array/unit_values"
+        android:defaultValue="true"
+        />
+
 </PreferenceScreen>
