@@ -11,4 +11,6 @@
         android:text="New Text"
         android:id="@+id/detail_textview"
         android:padding="@dimen/abc_action_bar_icon_vertical_padding_material" />
+
+
 </FrameLayout>
