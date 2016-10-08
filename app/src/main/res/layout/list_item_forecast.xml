@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="23dp"></TextView>
+            android:textSize="18dp"></TextView>
 
         <TextView
             android:id="@+id/list_item_forecast_textview"

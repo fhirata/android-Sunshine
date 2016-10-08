@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * {@link ForecastAdapter} exposes a list of weather forecasts
  * from a {@link android.database.Cursor} to a {@link android.widget.ListView}.
  */
-public class ForecastAdapter extends CursorAdapter   {
+public class ForecastAdapter extends CursorAdapter {
     private final int VIEW_TYPE_TODAY = 0;
     private final int VIEW_TYPE_FUTURE_DAY = 1;
 
@@ -78,7 +78,18 @@ public class ForecastAdapter extends CursorAdapter   {
         double high = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
         double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
 
-        viewHolder.iconView.setImageResource(R.drawable.ic_sun);
+        int viewType = getItemViewType(cursor.getPosition());
+        switch (viewType) {
+            case VIEW_TYPE_TODAY: {
+                viewHolder.iconView.setImageResource(Utility.getArtResourceForWeatherCondition(cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+                break;
+            }
+            case VIEW_TYPE_FUTURE_DAY: {
+                viewHolder.iconView.setImageResource(Utility.getIconResourceForWeatherCondition(cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+                break;
+            }
+
+        }
         viewHolder.dateTextView.setText(Utility.formatDate(dateLong));
         viewHolder.highTextView.setText(Utility.formatTemperature(mContext, high, isMetric));
         viewHolder.lowTextView.setText(Utility.formatTemperature(mContext, low, isMetric));
