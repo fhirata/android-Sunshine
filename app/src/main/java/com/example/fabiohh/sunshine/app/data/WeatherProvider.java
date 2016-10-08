@@ -357,4 +357,5 @@ public class WeatherProvider extends ContentProvider {
         mOpenHelper.close();
         super.shutdown();
     }
+
 }
