@@ -92,16 +92,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                             ));
                     //startActivity(intent);
                 }
-                Bundle bundle =  new Bundle();
-                bundle.putInt(SELECTED_KEY, position);
-                if (savedInstanceState != null) {
-                    savedInstanceState.putBundle(SELECTED_KEY, bundle);
-                }
+                mPosition = position;
             }
         });
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            mPosition = savedInstanceState.getBundle(SELECTED_KEY).getInt(SELECTED_KEY);
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
         mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
