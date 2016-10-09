@@ -1,5 +1,6 @@
 package com.example.fabiohh.sunshine.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -134,6 +135,8 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
             return;
         }
 
+        Context context = this.getActivity();
+
         String dateString = Utility.formatDate(
                 data.getLong(COL_WEATHER_DATE));
 
@@ -147,10 +150,10 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
         double windDouble = data.getDouble(COL_WEATHER_WIND_SPEED);
 
         TextView highTextView = (TextView)getView().findViewById(R.id.list_item_high_textview);
-        highTextView.setText(Utility.formatTemperature(this.getActivity(), data.getDouble(COL_WEATHER_MAX_TEMP), isMetric));
+        highTextView.setText(Utility.formatTemperature(context, data.getDouble(COL_WEATHER_MAX_TEMP), isMetric));
 
         TextView lowTextView = (TextView)getView().findViewById(R.id.list_item_low_textview);
-        lowTextView.setText(Utility.formatTemperature(this.getActivity(), data.getDouble(COL_WEATHER_MIN_TEMP), isMetric));
+        lowTextView.setText(Utility.formatTemperature(context, data.getDouble(COL_WEATHER_MIN_TEMP), isMetric));
 
         TextView dateTextView = (TextView)getView().findViewById(R.id.list_item_date_textview);
         dateTextView.setText(dateString);
@@ -162,13 +165,13 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
         weatherTextView.setText(weatherDesc);
 
         TextView humidityTextView = (TextView)getView().findViewById((R.id.detail_humidity_textview));
-        humidityTextView.setText(humidityString);
+        humidityTextView.setText(context.getString(R.string.humidity_label) + ": " + humidityString);
 
         TextView windTextView = (TextView)getView().findViewById(R.id.detail_wind_textview);
-        windTextView.setText(Utility.formatWindSpeed(this.getActivity(), windDouble, isMetric));
+        windTextView.setText(context.getString(R.string.wind_label) + ": " + Utility.formatWindSpeed(context, windDouble, isMetric));
 
         TextView pressureTextView = (TextView)getView().findViewById(R.id.detail_pressure_textview);
-        pressureTextView.setText(pressureString);
+        pressureTextView.setText(context.getString(R.string.pressure_label) + ": " + pressureString);
 
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(createShareIntent());
