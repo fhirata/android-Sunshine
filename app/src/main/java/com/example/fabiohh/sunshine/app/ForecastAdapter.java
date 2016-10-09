@@ -91,7 +91,7 @@ public class ForecastAdapter extends CursorAdapter {
             }
 
         }
-        viewHolder.dateTextView.setText(Utility.formatDate(dateLong));
+        viewHolder.dateTextView.setText(Utility.getFriendlyDayString(mContext, dateLong));
         viewHolder.highTextView.setText(Utility.formatTemperature(mContext, high, isMetric));
         viewHolder.lowTextView.setText(Utility.formatTemperature(mContext, low, isMetric));
         viewHolder.forecastTextView.setText(cursor.getString(ForecastFragment.COL_WEATHER_DESC));

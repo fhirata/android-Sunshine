@@ -179,8 +179,12 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
-    void onLocationChanged( String newLocation ) {
+    void onLocationChanged(String newLocation ) {
         // replace the uri, since the location has changed
         Uri uri = mUri;
         if (null != uri) {
