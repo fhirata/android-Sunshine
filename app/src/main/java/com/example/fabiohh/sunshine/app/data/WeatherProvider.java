@@ -310,7 +310,7 @@ public class WeatherProvider extends ContentProvider {
                 break;
             }
             default:
-                throw new UnsupportedOperationException("Unkonwn uri: " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
         if (rowsImpacted != 0) {

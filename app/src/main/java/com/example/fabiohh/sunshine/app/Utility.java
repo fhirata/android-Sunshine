@@ -39,6 +39,19 @@ public class Utility {
                 .equals(context.getString(R.string.pref_units_metric));
     }
 
+    static String formatWindSpeed(Context context, double windspeed, boolean isMetric) {
+        StringBuffer speed = new StringBuffer(String.valueOf(windspeed));
+        if (isMetric) {
+            speed.append(" " + context.getString(R.string.metric_speed));
+        } else {
+            speed.append(" " + context.getString(R.string.imperial_speed));
+        }
+
+        StringBuffer direction = new StringBuffer(" " + "Nw");
+
+        return context.getString(R.string.format_wind_speed, speed, direction);
+    }
+
     static String formatTemperature(Context context, double temperature, boolean isMetric) {
         double temp;
         if ( !isMetric ) {

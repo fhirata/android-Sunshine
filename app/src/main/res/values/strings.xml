@@ -17,6 +17,8 @@
     <string name="pref_units">units</string>
     <string name="pref_imperial">farenheit</string>
     <string name="pref_metric">metrics</string>
+    <string name="metric_speed">km/h</string>
+    <string name="imperial_speed">m/h</string>
     <string name="pref_units_key">units_key</string>
     <string name="pref_units_metric">c</string>
     <string name="pref_units_imperial">f</string>
@@ -30,4 +32,6 @@
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g>, <xliff:g id="date">%2$s</xliff:g></string>
 
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+
+    <string name="format_wind_speed"><xliff:g id="unit">%1$s</xliff:g> <xliff:g id="direction">%2$s</xliff:g></string>
 </resources>

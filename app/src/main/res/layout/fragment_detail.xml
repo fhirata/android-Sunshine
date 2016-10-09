@@ -26,8 +26,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
-
-                    android:text="Today, June 24"
                     android:textSize="20dp" />
 
                 <TextView
@@ -35,16 +33,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:textSize="20dp"
-                    android:text="21" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/list_item_low_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:textSize="20dp"
-                    android:text="8" />
+                    android:textSize="20dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -58,15 +54,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_sun" />
+                    android:padding="10dp" />
 
                 <TextView
                     android:id="@+id/list_item_forecast_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Clear" />
+                    android:gravity="center"/>
 
             </LinearLayout>
 
@@ -91,8 +85,7 @@
                 android:id="@+id/detail_wind_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="6 km/h NW" />
+                android:layout_margin="10dp"/>
 
             <TextView
                 android:id="@+id/detail_pressure_textview"

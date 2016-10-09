@@ -15,9 +15,15 @@ public class DetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(DetailFragment.DETAIL_URI, getIntent().getData());
+
+        DetailFragment detailFragment = new DetailFragment();
+        detailFragment.setArguments(arguments);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.weather_detail_container, new DetailFragment())
+                    .add(R.id.weather_detail_container, detailFragment)
                     .commit();
         }
     }
