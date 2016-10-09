@@ -179,6 +179,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
