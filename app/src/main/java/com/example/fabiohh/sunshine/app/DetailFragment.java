@@ -161,6 +161,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
         ImageView iconImageView = (ImageView)getView().findViewById(R.id.list_item_icon);
         iconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherCode));
 
+        iconImageView.setContentDescription(weatherDesc);
         TextView weatherTextView = (TextView)getView().findViewById(R.id.list_item_forecast_textview);
         weatherTextView.setText(weatherDesc);
 

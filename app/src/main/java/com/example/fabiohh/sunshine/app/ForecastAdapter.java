@@ -91,10 +91,13 @@ public class ForecastAdapter extends CursorAdapter {
             }
 
         }
+        String weatherDescription = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
+        viewHolder.iconView.setContentDescription(weatherDescription);
+
         viewHolder.dateTextView.setText(Utility.getFriendlyDayString(mContext, dateLong));
         viewHolder.highTextView.setText(Utility.formatTemperature(mContext, high, isMetric));
         viewHolder.lowTextView.setText(Utility.formatTemperature(mContext, low, isMetric));
-        viewHolder.forecastTextView.setText(cursor.getString(ForecastFragment.COL_WEATHER_DESC));
+        viewHolder.forecastTextView.setText(weatherDescription);
         cursor.getString(ForecastFragment.COL_WEATHER_CONDITION_ID);
     }
 
