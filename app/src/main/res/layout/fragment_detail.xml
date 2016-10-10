@@ -25,74 +25,84 @@
                     android:id="@+id/list_item_date_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:textSize="20dp" />
+                    android:padding="16dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/list_item_high_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="20dp" />
+                    android:layout_marginLeft="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="96sp" />
 
                 <TextView
                     android:id="@+id/list_item_low_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="20dp" />
+                    android:layout_marginLeft="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="48sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_gravity="center">
 
                 <ImageView
                     android:id="@+id/list_item_icon"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="10dp" />
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/list_item_forecast_textview"
+                    android:fontFamily="sans-serif-condensed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="22sp"
                     android:gravity="center"/>
 
             </LinearLayout>
-
-
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:orientation="vertical">
             <!-- Humidity, wind, pressure -->
             <TextView
                 android:id="@+id/detail_humidity_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:textSize="22sp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="sans-serif-light"
                 android:text="48%" />
 
             <TextView
                 android:id="@+id/detail_wind_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"/>
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="16dp"/>
 
             <TextView
                 android:id="@+id/detail_pressure_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="1014" />
+                android:fontFamily="sans-serif-light"
+                android:layout_marginBottom="4dp"
+                android:textSize="22dp"
+                android:layout_marginLeft="16dp"
+                android:text="22sp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

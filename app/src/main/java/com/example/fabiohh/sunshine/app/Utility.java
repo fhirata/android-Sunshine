@@ -42,14 +42,10 @@ public class Utility {
     static String formatWindSpeed(Context context, double windspeed, boolean isMetric) {
         StringBuffer speed = new StringBuffer(String.valueOf(windspeed));
         if (isMetric) {
-            speed.append(" " + context.getString(R.string.metric_speed));
+            return context.getString(R.string.format_wind_speed_metric, speed, "NW");
         } else {
-            speed.append(" " + context.getString(R.string.imperial_speed));
+            return context.getString(R.string.format_wind_speed_imperial, speed, "NW");
         }
-
-        StringBuffer direction = new StringBuffer(" " + "Nw");
-
-        return context.getString(R.string.format_wind_speed, speed, direction);
     }
 
     static String formatTemperature(Context context, double temperature, boolean isMetric) {
