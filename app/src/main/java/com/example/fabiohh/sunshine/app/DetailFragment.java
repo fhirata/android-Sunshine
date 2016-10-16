@@ -18,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -69,6 +71,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     public static final int COL_WEATHER_DEGREES = 8;
     public static final int COL_WEATHER_CONDITION_ID = 9;
 
+    TowerView mTowerView;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -92,6 +95,9 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+
+        getActivity().findViewById(R.id.windmill).startAnimation(AnimationUtils.loadAnimation(this.getActivity(),R.anim.rotation));
+
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -102,6 +108,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
         if (arguments != null) {
             mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
         }
+
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
 
@@ -177,6 +184,11 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(createShareIntent());
         }
+
+        Animation rotation = AnimationUtils.loadAnimation(this.getActivity(),R.anim.rotation);
+        rotation.setDuration((long)((1/windDouble) * 10000));
+        getActivity().findViewById(R.id.windmill).setAnimation(rotation);
+
     }
 
     @Override

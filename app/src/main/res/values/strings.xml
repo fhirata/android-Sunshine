@@ -29,8 +29,8 @@
     <!-- Date format for displaying day of week and date (i.e. Mon Jun 1) [CHAR LIMIT=20] -->
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g>, <xliff:g id="date">%2$s</xliff:g></string>
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
-    <string name="format_wind_speed_metric"><xliff:g id="unit">%1$s</xliff:g>km/h<xliff:g id="direction">%2$s</xliff:g></string>
-    <string name="format_wind_speed_imperial"><xliff:g id="unit">%1$s</xliff:g>m/h<xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_wind_speed_metric"><xliff:g id="unit">%1$s</xliff:g>km/h <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_wind_speed_imperial"><xliff:g id="unit">%1$s</xliff:g>m/h <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="pressure_label">Pressure</string>
     <string name="humidity_label">Humidity</string>
     <string name="wind_label">Wind</string>
