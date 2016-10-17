@@ -41,6 +41,8 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     static final String DETAIL_URI = "URI";
 
     private static final int DETAIL_LOADER = 1;
+    Audio audio;
+
 
     private static final String[] DETAIL_COLUMNS = {
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
@@ -72,6 +74,8 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     public static final int COL_WEATHER_CONDITION_ID = 9;
 
     TowerView mTowerView;
+    double originalSpeed;
+
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -96,7 +100,9 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
 
-        getActivity().findViewById(R.id.windmill).startAnimation(AnimationUtils.loadAnimation(this.getActivity(),R.anim.rotation));
+        if (getActivity().findViewById(R.id.windmill) != null) {
+            getActivity().findViewById(R.id.windmill).startAnimation(AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotation));
+        }
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -134,6 +140,15 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
                 null,
                 null
         );
+    }
+
+    public void setWindSpeed(int speed) {
+        if (speed != originalSpeed) {
+            boolean isMetric = Utility.isMetric(getActivity());
+
+            TextView windTextView = (TextView) getView().findViewById(R.id.detail_wind_textview);
+            windTextView.setText(getView().getContext().getString(R.string.wind_label) + ": " + Utility.formatWindSpeed(getActivity(), speed, isMetric));
+        }
     }
 
     @Override
@@ -185,15 +200,36 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
             mShareActionProvider.setShareIntent(createShareIntent());
         }
 
-        Animation rotation = AnimationUtils.loadAnimation(this.getActivity(),R.anim.rotation);
-        rotation.setDuration((long)((1/windDouble) * 10000));
-        getActivity().findViewById(R.id.windmill).setAnimation(rotation);
+        if (getActivity().findViewById(R.id.windmill) != null) {
+            Animation rotation = AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotation);
+            originalSpeed = convertWindSpeed(windDouble);
+            rotation.setDuration((long) originalSpeed);
+            getActivity().findViewById(R.id.windmill).setAnimation(rotation);
+        }
+
+        // Start audio capturing for "sound of wind"
+        audio = new Audio(this, windDouble);
+        audio.execute();
+    }
+
+    public static double convertWindSpeed(double windDouble) {
+        return (1/windDouble) * 10000;
+    }
+
+    public void blowAwayViews() {
+        Animation rotate_out = AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotate_out);
+        rotate_out.setDuration(1000);
+        getActivity().findViewById(R.id.windmill).startAnimation(rotate_out);
+
+        getActivity().findViewById(R.id.list_item_forecast_textview).startAnimation(rotate_out);
+        getActivity().findViewById(R.id.list_item_icon).startAnimation(rotate_out);
 
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        boolean mayInterruptIfRunning = true;
+        audio.cancel(mayInterruptIfRunning);
     }
 
     @Override

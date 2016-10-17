@@ -172,7 +172,7 @@ public class TestDb extends AndroidTestCase {
 
 
     /*
-        Students: This is a helper method for the testWeatherTable quiz. You can move your
+        Students: This is a helper method for the testWeatherTable quiz. You can move_out your
         code from testLocationTable to here so that you can call this code from both
         testWeatherTable and testLocationTable.
      */

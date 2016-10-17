@@ -112,12 +112,8 @@
 
             <FrameLayout
                 android:id="@+id/tower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <com.example.fabiohh.sunshine.app.TowerView
-                    android:layout_width="60dp"
-                    android:layout_height="100dp" />
+                android:layout_width="110dp"
+                android:layout_height="110dp">
 
                 <FrameLayout
                     android:id="@+id/windmill"
@@ -125,21 +121,26 @@
                     android:layout_height="wrap_content">
 
                     <com.example.fabiohh.sunshine.app.WindmillView
-                        android:layout_width="100dp"
-                        android:layout_height="60dp"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
                         android:rotation="0" />
 
                     <com.example.fabiohh.sunshine.app.WindmillView
-                        android:layout_width="100dp"
-                        android:layout_height="60dp"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
                         android:rotation="120" />
 
                     <com.example.fabiohh.sunshine.app.WindmillView
-                        android:layout_width="100dp"
-                        android:layout_height="60dp"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
                         android:rotation="240" />
 
                 </FrameLayout>
+
+                <com.example.fabiohh.sunshine.app.TowerView
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    />
             </FrameLayout>
 
         </LinearLayout>

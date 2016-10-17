@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:fillAfter="true">
+
+
+    <!-- Rotate 360 degrees -->
+    <rotate
+        android:duration="150"
+        android:fromDegrees="0"
+        android:interpolator="@android:anim/cycle_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toDegrees="360" />
+
+    <!-- Move -->
+    <translate
+        android:duration="150"
+        android:fillAfter="false"
+        android:fromYDelta="0%p"
+        android:toYDelta="-100%p" />
+
+</set>

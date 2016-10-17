@@ -93,6 +93,38 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="22sp" />
 
+            <FrameLayout
+                android:id="@+id/tower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:id="@+id/windmill"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp">
+
+                    <com.example.fabiohh.sunshine.app.WindmillView
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:rotation="0" />
+
+                    <com.example.fabiohh.sunshine.app.WindmillView
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:rotation="120" />
+
+                    <com.example.fabiohh.sunshine.app.WindmillView
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:rotation="240" />
+
+                </FrameLayout>
+
+                <com.example.fabiohh.sunshine.app.TowerView
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    />
+            </FrameLayout>
         </LinearLayout>
 
 

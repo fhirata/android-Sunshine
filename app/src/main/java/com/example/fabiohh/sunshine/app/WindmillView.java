@@ -18,25 +18,17 @@ public class WindmillView extends View {
     public WindmillView(Context context) {
         super(context);
 
-        drawMill();
     }
 
     public WindmillView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        drawMill();
     }
 
     public WindmillView(Context context, AttributeSet attrs, int defaultStyle) {
         super(context, attrs, defaultStyle);
 
-        drawMill();
     }
-
-    private void drawMill() {
-
-    }
-
 
     @Override
     @TargetApi(21)
@@ -55,6 +47,7 @@ public class WindmillView extends View {
         canvas.drawArc(rectf, 0, 90, true, paint);
 
         paint.setColor(Color.GRAY);
+        paint.setAlpha(200);
         RectF rectf2 = new RectF(x - (width/2), y-(height/2), x + width/2, y + height/2);
         canvas.drawArc(rectf2, 0, -90, true, paint);
 
