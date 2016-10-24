@@ -123,19 +123,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//        String zipcode = settings.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
-//
-//        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
-//        alarmIntent.putExtra(SunshineService.LOCATION_SERVICE, zipcode);
-//
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0 ,alarmIntent, PendingIntent.FLAG_ONE_SHOT);
-//        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-//
-//        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
-
         com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.syncImmediately(getActivity());
-
     }
 
     @Override
