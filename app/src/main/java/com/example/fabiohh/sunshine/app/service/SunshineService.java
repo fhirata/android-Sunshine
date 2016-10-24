@@ -50,7 +50,7 @@ public class SunshineService extends IntentService {
         String locationQuery = "";
         // If there's no zip code, there's nothing to look up.  Verify size of params.
         if (intent.hasExtra(SunshineService.LOCATION_SERVICE)) {
-            locationQuery = intent.getStringExtra(intent.getStringExtra(SunshineService.LOCATION_SERVICE));
+            locationQuery = intent.getStringExtra(SunshineService.LOCATION_SERVICE);
         }
 
         // These two need to be declared outside the try/catch
@@ -330,7 +330,7 @@ public class SunshineService extends IntentService {
         public void onReceive(Context context, Intent intent) {
             String zipcode = intent.getStringExtra(SunshineService.LOCATION_SERVICE);
             Intent sendIntent = new Intent(context, SunshineService.class);
-            intent.putExtra(SunshineService.LOCATION_SERVICE, zipcode);
+            sendIntent.putExtra(SunshineService.LOCATION_SERVICE, zipcode);
             context.startService(sendIntent);
         }
     }
