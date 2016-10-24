@@ -1,5 +1,6 @@
 package com.example.fabiohh.sunshine.app;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
+import com.example.fabiohh.sunshine.app.service.SunshineService;
 
 /**
  * Created by fabiohh on 8/2/16.
@@ -29,6 +31,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private ForecastAdapter mForecastAdapter;
     private String SELECTED_KEY = "position";
+    public String ZIPCODE_VALUE = "zip";
 
     private static final int FORECAST_LOADER = 1;
     private boolean mUseTodayLayout;
@@ -125,12 +128,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String zipcode = settings.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
 
         Log.w(LOG_TAG, "zip: " + zipcode);
-        weatherTask.execute(zipcode);
+        Intent intent = new Intent(getActivity(), SunshineService.class);
+        intent.putExtra(SunshineService.LOCATION_SERVICE, zipcode);
+        getActivity().startService(intent);
     }
 
     @Override
