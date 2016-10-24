@@ -1,14 +1,8 @@
 package com.example.fabiohh.sunshine.app;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -22,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
-import com.example.fabiohh.sunshine.app.service.SunshineService;
 
 /**
  * Created by fabiohh on 8/2/16.
@@ -130,16 +123,18 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String zipcode = settings.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//        String zipcode = settings.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+//
+//        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
+//        alarmIntent.putExtra(SunshineService.LOCATION_SERVICE, zipcode);
+//
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0 ,alarmIntent, PendingIntent.FLAG_ONE_SHOT);
+//        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
 
-        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
-        alarmIntent.putExtra(SunshineService.LOCATION_SERVICE, zipcode);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0 ,alarmIntent, PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+        com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.syncImmediately(getActivity());
 
     }
 
