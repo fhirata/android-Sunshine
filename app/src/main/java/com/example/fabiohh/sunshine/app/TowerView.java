@@ -9,6 +9,8 @@ import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 
 /**
  * Created by fabiohh on 10/9/16.
@@ -25,25 +27,29 @@ public class TowerView extends View {
     RectF rectf1;
     RectF rectf2;
 
-    private void init() {
+    private void init(Context context) {
+        AccessibilityManager accessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
 
+        if (accessibilityManager.isEnabled()) {
+            sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED);
+        }
     }
 
     public TowerView(Context context) {
         super(context);
 
-        init();
+        init(context);
     }
 
     public TowerView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init();
+        init(context);
     }
 
     public TowerView(Context context, AttributeSet attrs, int defaultStyle) {
         super(context, attrs, defaultStyle);
-        init();
+        init(context);
     }
 
     @Override
