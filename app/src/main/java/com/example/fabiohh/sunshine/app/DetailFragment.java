@@ -76,6 +76,8 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     TowerView mTowerView;
     double originalSpeed;
 
+    String cityZipcode;
+    String cityName;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -103,6 +105,17 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
         if (getActivity().findViewById(R.id.windmill) != null) {
             getActivity().findViewById(R.id.windmill).startAnimation(AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotation));
         }
+
+        Intent receivingIntent = getActivity().getIntent();
+        if (receivingIntent != null) {
+            Uri detailUri = receivingIntent.getData();
+            cityZipcode = WeatherContract.WeatherEntry.getLocationSettingFromUri(detailUri);
+        }
+
+        if (receivingIntent.hasExtra(Context.LOCATION_SERVICE)) {
+            cityName = receivingIntent.getStringExtra(Context.LOCATION_SERVICE);
+        }
+
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -195,6 +208,11 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
 
         TextView pressureTextView = (TextView)getView().findViewById(R.id.detail_pressure_textview);
         pressureTextView.setText(context.getString(R.string.pressure_label) + ": " + pressureString);
+
+        if (cityName != null && !cityName.isEmpty()) {
+            TextView locationTextView = (TextView) getView().findViewById(R.id.detail_location_textview);
+            locationTextView.setText(context.getString(R.string.location_label) + ": " + cityName);
+        }
 
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(createShareIntent());

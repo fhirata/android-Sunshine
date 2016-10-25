@@ -79,7 +79,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <!-- Humidity, wind, pressure -->
+
+                <!-- Location, Humidity, wind, pressure -->
+                <TextView
+                    android:id="@+id/detail_location_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="48%"
+                    android:textSize="22sp" />
+
                 <TextView
                     android:id="@+id/detail_humidity_textview"
                     android:layout_width="wrap_content"
@@ -142,6 +153,8 @@
                     android:layout_height="110dp"
                     />
             </FrameLayout>
+
+
 
         </LinearLayout>
     </LinearLayout>

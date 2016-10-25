@@ -1,5 +1,6 @@
 package com.example.fabiohh.sunshine.app;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.format.Time;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +51,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
             WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
             WeatherContract.LocationEntry.COLUMN_COORD_LAT,
-            WeatherContract.LocationEntry.COLUMN_COORD_LONG
+            WeatherContract.LocationEntry.COLUMN_COORD_LONG,
+            WeatherContract.LocationEntry.COLUMN_CITY_NAME
     };
 
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
@@ -62,6 +66,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     static final int COL_WEATHER_CONDITION_ID = 6;
     static final int COL_COORD_LAT = 7;
     static final int COL_COORD_LONG = 8;
+    static final int COL_CITY_NAME = 9;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,15 +88,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-                    //Intent intent = new Intent(getActivity(), DetailActivity.class)
-                    //        .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                     ((Callback) getActivity())
                             .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                                     locationSetting, cursor.getLong(COL_WEATHER_DATE)
-                            ));
-                    //startActivity(intent);
+                            ), cursor.getString(COL_CITY_NAME));
                 }
                 mPosition = position;
+                if (cursor != null && !cursor.isClosed()) {
+                    cursor.close();
+                }
             }
         });
 
@@ -109,6 +114,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         getLoaderManager().initLoader(FORECAST_LOADER, null, this);
 
         super.onActivityCreated(savedInstanceState);
+    }
+
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.forecast_fragment, menu);
     }
 
     @Override
@@ -143,11 +154,39 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            updateWeather();
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+
+            case R.id.action_map: {
+                openPreferredLocationInMap();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openPreferredLocationInMap() {
+        String zipcode = "";
+
+        Cursor c = mForecastAdapter.getCursor();
+        if (null != c) {
+            c.moveToFirst();
+            String lat = c.getString(COL_COORD_LAT);
+            String lon = c.getString(COL_COORD_LONG);
+            Uri geoLocation = Uri.parse("geo:" + lat + "," + lon);
+
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW);
+            mapIntent.setData(geoLocation);
+
+            if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }
+        }
+        if (c!= null && !c.isClosed()) {
+            c.close();
+        }
     }
 
     @Override
@@ -212,6 +251,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
-        public void onItemSelected(Uri dateUri);
+        public void onItemSelected(Uri dateUri, String cityName);
     }
 }
