@@ -46,6 +46,7 @@ import static com.example.fabiohh.sunshine.app.data.WeatherContract.LocationEntr
 import static com.example.fabiohh.sunshine.app.data.WeatherContract.LocationEntry.COLUMN_COORD_LAT;
 import static com.example.fabiohh.sunshine.app.data.WeatherContract.LocationEntry.COLUMN_COORD_LONG;
 import static com.example.fabiohh.sunshine.app.data.WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING;
+import static java.lang.System.currentTimeMillis;
 
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     // Interval at which to sync with the weather, in milliseconds.
@@ -81,7 +82,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         String lastNotificationKey = context.getString(R.string.pref_last_notification);
         long lastSync = prefs.getLong(lastNotificationKey, 0);
 
-        if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
+        if (!Utility.getNotificationEnabled(context)) {
+            return;
+        }
+
+        if (currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
             // Last sync was more than 1 day ago, let's send a notification with the weather.
             String locationQuery = Utility.getPreferredLocation(context);
 
@@ -89,7 +94,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             dayTime.setToNow();
 
             // we start at the day returned by local time. Otherwise this is a mess.
-            int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
+            int julianStartDay = Time.getJulianDay(currentTimeMillis(), dayTime.gmtoff);
 
             long dateTime = dayTime.setJulianDay(julianStartDay);
 
@@ -135,7 +140,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 //refreshing last sync
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putLong(lastNotificationKey, System.currentTimeMillis());
+                editor.putLong(lastNotificationKey, currentTimeMillis());
                 editor.commit();
             }
         }
@@ -229,6 +234,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         try {
             getWeatherDataFromJson(forecastJsonStr, locationQuery);
             notifyWeather();
+            deleteOldData();
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
@@ -237,6 +243,17 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
+    private void deleteOldData() {
+        // we start at the day returned by local time. Otherwise this is a mess.
+        long yesterdayDate = System.currentTimeMillis() - 86400000;
+
+        String yesterday = String.valueOf(yesterdayDate);
+        int row = getContext().getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI,
+                WeatherContract.WeatherEntry.COLUMN_DATE + "<?",
+                new String[] {yesterday});
+
+        Log.i(LOG_TAG, "Deleted yesterday data (rows deleted): " + row);
+    }
     /**
      * Take the String representing the complete forecast in JSON Format and
      * pull out the data we need to construct the Strings needed for the wireframes.
@@ -310,7 +327,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             dayTime.setToNow();
 
             // we start at the day returned by local time. Otherwise this is a mess.
-            int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
+            int julianStartDay = Time.getJulianDay(currentTimeMillis(), dayTime.gmtoff);
 
             // now we work exclusively in UTC
             dayTime = new Time();
