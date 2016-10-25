@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -160,9 +161,17 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // Sort order:  Ascending, by date.
         String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
 
+        Time dayTime = new Time();
+        dayTime.setToNow();
+        // we start at the day returned by local time. Otherwise this is a mess.
+        int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
+
+        long dateTime = dayTime.setJulianDay(julianStartDay);
+
+
         String locationSetting = Utility.getPreferredLocation(getActivity());
         Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
-                locationSetting, System.currentTimeMillis());
+                locationSetting, dateTime);
 
         return new CursorLoader(getActivity(),
                 weatherForLocationUri,
