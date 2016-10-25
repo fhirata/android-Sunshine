@@ -1,4 +1,4 @@
-package com.example.android.sunshine.app.sync;
+package com.example.fabiohh.sunshine.app.sync;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
