@@ -211,7 +211,9 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
 
         if (cityName != null && !cityName.isEmpty()) {
             TextView locationTextView = (TextView) getView().findViewById(R.id.detail_location_textview);
-            locationTextView.setText(context.getString(R.string.location_label) + ": " + cityName);
+            if (locationTextView != null) {
+                locationTextView.setText(context.getString(R.string.location_label) + ": " + cityName);
+            }
         }
 
         if (mShareActionProvider != null) {

@@ -95,9 +95,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                             ), cursor.getString(COL_CITY_NAME));
                 }
                 mPosition = position;
-                if (cursor != null && !cursor.isClosed()) {
-                    cursor.close();
-                }
             }
         });
 
@@ -184,9 +181,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivity(mapIntent);
             }
-        }
-        if (c!= null && !c.isClosed()) {
-            c.close();
         }
     }
 

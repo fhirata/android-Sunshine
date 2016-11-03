@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Created by fabiohh on 9/3/16.
@@ -97,7 +98,13 @@ public class WeatherContract {
         }
 
         public static String getLocationSettingFromUri(Uri uri) {
-            return uri.getPathSegments().get(1);
+            if (uri != null) {
+                List<String> pathSegments = uri.getPathSegments();
+                if (pathSegments.size() > 0) {
+                    return pathSegments.get(1);
+                }
+            }
+            return null;
         }
 
         public static long getDateFromUri(Uri uri) {

@@ -144,9 +144,6 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 editor.putLong(lastNotificationKey, currentTimeMillis());
                 editor.apply();
             }
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
         }
     }
 

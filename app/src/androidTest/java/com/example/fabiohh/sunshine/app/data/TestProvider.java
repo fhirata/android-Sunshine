@@ -70,7 +70,6 @@ public class TestProvider extends AndroidTestCase {
                 null
         );
         assertEquals("Error: Records not deleted from Weather table during delete", 0, cursor.getCount());
-        cursor.close();
 
         cursor = mContext.getContentResolver().query(
                 LocationEntry.CONTENT_URI,
@@ -80,7 +79,6 @@ public class TestProvider extends AndroidTestCase {
                 null
         );
         assertEquals("Error: Records not deleted from Location table during delete", 0, cursor.getCount());
-        cursor.close();
     }
 
     /*
@@ -94,7 +92,6 @@ public class TestProvider extends AndroidTestCase {
 
         db.delete(WeatherEntry.TABLE_NAME, null, null);
         db.delete(LocationEntry.TABLE_NAME, null, null);
-        db.close();
     }
 
     /*
@@ -196,8 +193,6 @@ public class TestProvider extends AndroidTestCase {
         long weatherRowId = db.insert(WeatherEntry.TABLE_NAME, null, weatherValues);
         assertTrue("Unable to Insert WeatherEntry into the Database", weatherRowId != -1);
 
-        db.close();
-
         // Test the basic content provider query
         Cursor weatherCursor = mContext.getContentResolver().query(
                 WeatherEntry.CONTENT_URI,
@@ -283,7 +278,6 @@ public class TestProvider extends AndroidTestCase {
         tco.waitForNotificationOrFail();
 
         locationCursor.unregisterContentObserver(tco);
-        locationCursor.close();
 
         // A cursor is your primary interface to the query results.
         Cursor cursor = mContext.getContentResolver().query(
@@ -297,7 +291,6 @@ public class TestProvider extends AndroidTestCase {
         TestUtilities.validateCursor("testUpdateLocation.  Error validating location entry update.",
                 cursor, updatedValues);
 
-        cursor.close();
     }
 
 
