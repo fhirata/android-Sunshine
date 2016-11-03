@@ -10,4 +10,10 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 
+    <TextView
+        android:id="@+id/textview_no_weather_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No weather information available"
+        android:gravity="center"/>
 </FrameLayout>

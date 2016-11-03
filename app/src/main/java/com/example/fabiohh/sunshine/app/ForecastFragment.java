@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
 
@@ -227,6 +228,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             // If we don't need to restart the loader, and there's a desired position to restore
             // to, do so now.
             mListView.smoothScrollToPosition(mPosition);
+        }
+
+        TextView noWeatherTextview = (TextView) getActivity().findViewById(R.id.textview_no_weather_info);
+
+        if (mListView.getCount() == 0) {
+            noWeatherTextview.setVisibility(View.VISIBLE);
+            mListView.setEmptyView(noWeatherTextview);
+        } else {
+            noWeatherTextview.setVisibility(View.GONE);
         }
     }
 
