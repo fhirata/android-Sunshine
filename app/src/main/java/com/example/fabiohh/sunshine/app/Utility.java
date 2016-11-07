@@ -28,6 +28,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN;
+
 
 public class Utility {
     public static boolean isNetworkAvailable(Context context) {
@@ -61,6 +63,12 @@ public class Utility {
         } else {
             return context.getString(R.string.format_wind_speed_imperial, speed, "NW");
         }
+    }
+
+    @SuppressWarnings("ResourceType")
+    static public @SunshineSyncAdapter.LocationStatus int getLocationStatus(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getInt(context.getString(R.string.pref_location_result), LOCATION_STATUS_UNKNOWN);
     }
 
     public static String formatTemperature(Context context, double temperature, boolean isMetric) {

@@ -1,9 +1,11 @@
 package com.example.fabiohh.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -21,11 +23,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
+import com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter;
+
+import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_SERVER_DOWN;
+import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_SERVER_INVALID;
 
 /**
  * Created by fabiohh on 8/2/16.
  */
-public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = Fragment.class.getName();
 
@@ -224,14 +230,30 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             mListView.smoothScrollToPosition(mPosition);
         }
 
+        updateEmptyView();
+    }
+
+    private void updateEmptyView() {
         TextView noWeatherTextview = (TextView) getActivity().findViewById(R.id.textview_no_weather_info);
 
         if (mListView.getCount() == 0) {
-            noWeatherTextview.setVisibility(View.VISIBLE);
-            if (!Utility.isNetworkAvailable(this.getActivity())) {
-                noWeatherTextview.setText(R.string.network_unavailable);
+            int message = R.string.empty_forecast_list;
+            @SunshineSyncAdapter.LocationStatus int location = Utility.getLocationStatus(this.getActivity());
+            switch(location) {
+                case LOCATION_STATUS_SERVER_DOWN:
+                    message = R.string.empty_forecast_list_server_down;
+                    break;
+                case LOCATION_STATUS_SERVER_INVALID:
+                    message = R.string.empty_forecast_list_server_error;
+                    break;
+                default:
+                    if (!Utility.isNetworkAvailable(this.getActivity())) {
+                        message = R.string.empty_forecast_list_no_network;
+                    }
             }
+            noWeatherTextview.setText(message);
             mListView.setEmptyView(noWeatherTextview);
+            noWeatherTextview.setVisibility(View.VISIBLE);
         } else {
             noWeatherTextview.setVisibility(View.GONE);
         }
@@ -247,6 +269,27 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if (mForecastAdapter != null) {
             mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.pref_location_result))) {
+            updateEmptyView();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
     }
 
     /**
