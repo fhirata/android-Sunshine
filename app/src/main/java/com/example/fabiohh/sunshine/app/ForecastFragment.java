@@ -228,6 +228,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         if (mListView.getCount() == 0) {
             noWeatherTextview.setVisibility(View.VISIBLE);
+            if (!Utility.isNetworkAvailable(this.getActivity())) {
+                noWeatherTextview.setText(R.string.network_unavailable);
+            }
             mListView.setEmptyView(noWeatherTextview);
         } else {
             noWeatherTextview.setVisibility(View.GONE);
