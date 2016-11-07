@@ -27,6 +27,7 @@ import com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter;
 
 import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_SERVER_DOWN;
 import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_SERVER_INVALID;
+import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_SERVER_INVALID_LOCATION;
 
 /**
  * Created by fabiohh on 8/2/16.
@@ -246,6 +247,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 case LOCATION_STATUS_SERVER_INVALID:
                     message = R.string.empty_forecast_list_server_error;
                     break;
+                case LOCATION_STATUS_SERVER_INVALID_LOCATION:
+                    message = R.string.empty_forecast_list_invalid_location;
+
                 default:
                     if (!Utility.isNetworkAvailable(this.getActivity())) {
                         message = R.string.empty_forecast_list_no_network;

@@ -85,6 +85,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             LOCATION_STATUS_SERVER_INVALID = 2;
     public static final int
             LOCATION_STATUS_UNKNOWN = 3;
+    public static final int LOCATION_STATUS_SERVER_INVALID_LOCATION = 4;
 
     public  SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -327,6 +328,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         final String OWM_WEATHER = "weather";
         final String OWM_DESCRIPTION = "main";
         final String OWM_WEATHER_ID = "id";
+        final String OWM_MESSAGE_CODE = "cod";
 
             try {
                 JSONObject forecastJson = new JSONObject(forecastJsonStr);
@@ -338,12 +340,16 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 JSONObject cityCoord = cityJson.getJSONObject(OWM_COORD);
                 double cityLatitude = cityCoord.getDouble(OWM_LATITUDE);
                 double cityLongitude = cityCoord.getDouble(OWM_LONGITUDE);
+                int code = forecastJson.has(OWM_MESSAGE_CODE)? forecastJson.getInt(OWM_MESSAGE_CODE) : -1;
 
                 long locationId = addLocation(locationSetting, cityName, cityLatitude, cityLongitude);
 
                 // Insert the new weather information into the database
                 Vector<ContentValues> cVVector = new Vector<>(weatherArray.length());
 
+                if (code == 404) {
+                    setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID_LOCATION);
+                }
                 // OWM returns daily forecasts based upon the local time of the city that is being
                 // asked for, which means that we need to know the GMT offset to translate this data
                 // properly.

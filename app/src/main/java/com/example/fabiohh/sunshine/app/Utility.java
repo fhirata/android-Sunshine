@@ -71,6 +71,13 @@ public class Utility {
         return prefs.getInt(context.getString(R.string.pref_location_result), LOCATION_STATUS_UNKNOWN);
     }
 
+    static public void resetLocationStatus(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(context.getString(R.string.pref_location_result), LOCATION_STATUS_UNKNOWN);
+        editor.apply();
+    }
+
     public static String formatTemperature(Context context, double temperature, boolean isMetric) {
         double temp;
         if ( !isMetric ) {
