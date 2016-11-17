@@ -25,3 +25,5 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.android.support:support-annotations:25.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -7,6 +7,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
 
+        // Firebase integration
+        classpath 'com.google.gms:google-services:3.0.0'
+
         // https://mvnrepository.com/artifact/org.json/json
         // compile group: 'org.json', name: 'json', version: '20160212'
 
