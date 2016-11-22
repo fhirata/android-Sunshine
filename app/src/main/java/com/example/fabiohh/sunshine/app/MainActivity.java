@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter;
@@ -16,6 +17,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     public final String TAG = MainActivity.class.getSimpleName();
 
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     private boolean mTwoPane;
     String mLocation;
@@ -61,9 +63,15 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
             return false;
         }
-
         return true;
     }
 

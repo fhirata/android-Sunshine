@@ -40,3 +40,6 @@ project.properties
 ##Gradle-based build
 .gradle
 build/
+
+# Google Play services
+google-services.json
