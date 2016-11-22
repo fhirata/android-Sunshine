@@ -29,6 +29,7 @@ import android.util.Log;
 import com.example.fabiohh.sunshine.app.MainActivity;
 import com.example.fabiohh.sunshine.app.R;
 import com.example.fabiohh.sunshine.app.Utility;
+import com.example.fabiohh.sunshine.app.data.Weather;
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
 
 import org.json.JSONArray;
@@ -63,17 +64,17 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final int WEATHER_NOTIFICATION_ID = 3004;
 
-    private static final String[] NOTIFY_WEATHER_PROJECTION = new String[] {
+    public static final String[] NOTIFY_WEATHER_PROJECTION = new String[] {
             WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
             WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
             WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
             WeatherContract.WeatherEntry.COLUMN_SHORT_DESC
     };
     // these indices must match the projection
-    private static final int INDEX_WEATHER_ID = 0;
-    private static final int INDEX_MAX_TEMP = 1;
-    private static final int INDEX_MIN_TEMP = 2;
-    private static final int INDEX_SHORT_DESC = 3;
+    public static final int INDEX_WEATHER_ID = 0;
+    public static final int INDEX_MAX_TEMP = 1;
+    public static final int INDEX_MIN_TEMP = 2;
+    public static final int INDEX_SHORT_DESC = 3;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID,  LOCATION_STATUS_UNKNOWN})
@@ -119,21 +120,17 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             // we'll query our contentProvider, as always
             Cursor cursor = context.getContentResolver().query(weatherUri, NOTIFY_WEATHER_PROJECTION, null, null, null);
 
-            if (cursor != null && cursor.moveToFirst()) {
-                int weatherId = cursor.getInt(INDEX_WEATHER_ID);
-                double high = cursor.getDouble(INDEX_MAX_TEMP);
-                double low = cursor.getDouble(INDEX_MIN_TEMP);
-                String desc = cursor.getString(INDEX_SHORT_DESC);
-                boolean isMetric = Utility.isMetric(context);
+            Weather weatherEntry = Weather.fromCursor(context, cursor);
 
-                int iconId = Utility.getIconResourceForWeatherCondition(weatherId);
+            if (cursor != null && cursor.moveToFirst()) {
+
                 String title = context.getString(R.string.app_name);
 
                 // Define the text of the forecast.
                 String contentText = String.format(context.getString(R.string.format_notification),
-                        desc,
-                        Utility.formatTemperature(context, high, isMetric),
-                        Utility.formatTemperature(context, low, isMetric));
+                        weatherEntry.getDesc(),
+                        Utility.formatTemperature(context, weatherEntry.getHigh(), weatherEntry.isMetric()),
+                        Utility.formatTemperature(context, weatherEntry.getLow(), weatherEntry.isMetric()));
 
                 //build your notification here.
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -143,7 +140,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                        .setSmallIcon(iconId)
+                        .setSmallIcon(weatherEntry.getIconId())
                         .setContentTitle(title)
                         .setContentText(contentText)
                         .setSound(defaultSoundUri)
