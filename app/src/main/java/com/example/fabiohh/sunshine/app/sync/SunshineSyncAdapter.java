@@ -120,9 +120,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             // we'll query our contentProvider, as always
             Cursor cursor = context.getContentResolver().query(weatherUri, NOTIFY_WEATHER_PROJECTION, null, null, null);
 
-            Weather weatherEntry = Weather.fromCursor(context, cursor);
-
             if (cursor != null && cursor.moveToFirst()) {
+                Weather weatherEntry = Weather.fromCursor(context, cursor);
 
                 String title = context.getString(R.string.app_name);
 

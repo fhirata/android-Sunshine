@@ -34,7 +34,7 @@
         </activity>
         <activity
             android:name=".DetailActivity"
-            android:label="@string/detail_activity"
+            android:label=""
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

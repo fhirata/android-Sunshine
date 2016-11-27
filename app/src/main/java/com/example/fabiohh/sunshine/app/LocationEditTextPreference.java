@@ -1,3 +1,5 @@
+package com.example.fabiohh.sunshine.app;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,8 +11,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.example.fabiohh.sunshine.app.R;
 
 /**
  * Created by fabiohh on 11/13/16.
