@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         style="@style/ForecastListStyle"
         android:background="@drawable/touch_selector"
         android:id="@+id/listview_forecast"
