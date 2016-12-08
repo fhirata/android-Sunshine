@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
 import com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter;
 
+import static com.example.fabiohh.sunshine.app.R.id.textview_no_weather_info;
 import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_SERVER_DOWN;
 import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_SERVER_INVALID;
 import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.LOCATION_STATUS_SERVER_INVALID_LOCATION;
@@ -44,6 +45,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private static final int FORECAST_LOADER = 1;
     private boolean mUseTodayLayout;
     RecyclerView mRecyclerView;
+    View mEmptyView;
     int mPosition = ListView.INVALID_POSITION;
     private static final String[] FORECAST_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
@@ -81,18 +83,30 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
 
-        // The ForecastAdapter will take data from a source and
-        // use it to populate the RecyclerView it's attached to.
-        mForecastAdapter = new ForecastAdapter(getActivity());
-
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        mEmptyView = rootView.findViewById(R.id.textview_no_weather_info);
 
         // Get a reference to the RecyclerView, and attach this adapter to it.
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.listview_forecast);
 
+        // The ForecastAdapter will take data from a source and
+        // use it to populate the RecyclerView it's attached to.
+        mForecastAdapter = new ForecastAdapter(getActivity(), new ForecastAdapter.ForecastAdapterOnClickHandler() {
+            @Override
+            public void onClick(Long date, ForecastAdapter.ForecastViewHolder vh) {
+                                    String locationSetting = Utility.getPreferredLocation(getActivity());
+                    ((Callback) getActivity())
+                            .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                                    locationSetting, date));
+
+                mPosition = vh.getPosition();
+            }
+        }, mEmptyView);
+
         // Set the layout manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        View emptyView = rootView.findViewById(R.id.recyclerview_forecast_empty);
+        View emptyView = rootView.findViewById(textview_no_weather_info);
         mRecyclerView.setAdapter(mForecastAdapter);
         // We'll call our MainActivity
 //        mRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,10 +117,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 //                // if it cannot seek to that position.
 //                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
 //                if (cursor != null) {
-//                    String locationSetting = Utility.getPreferredLocation(getActivity());
-//                    ((Callback) getActivity())
-//                            .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
 //                            ));
 //                }
 //                mPosition = position;
@@ -250,8 +260,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateEmptyView() {
-        if (mForecastAdapter.getItemCount() == 0) {
-            TextView noWeatherTextview = (TextView) getActivity().findViewById(R.id.textview_no_weather_info);
+        if (mForecastAdapter.getItemCount() != 0) {
+            TextView noWeatherTextview = (TextView) getActivity().findViewById(textview_no_weather_info);
             if (null != noWeatherTextview) {
                 int message = R.string.empty_forecast_list;
                 @SunshineSyncAdapter.LocationStatus int location = Utility.getLocationStatus(this.getActivity());
@@ -317,6 +327,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
-        public void onItemSelected(Uri dateUri, String cityName);
+        public void onItemSelected(Uri dateUri);
     }
 }

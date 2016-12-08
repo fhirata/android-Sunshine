@@ -100,7 +100,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     }
 
     @Override
-    public void onItemSelected(Uri contentUri, String cityName) {
+    public void onItemSelected(Uri contentUri) {
         if (mTwoPane) {
             Bundle args = new Bundle();
             args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
@@ -114,7 +114,6 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         } else {
             Intent intent = new Intent(this, DetailActivity.class)
                     .setData(contentUri);
-            intent.putExtra(LOCATION_SERVICE, cityName);
             startActivity(intent);
         }
     }
