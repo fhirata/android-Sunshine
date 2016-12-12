@@ -55,8 +55,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/secondary_text"
             app:layout_columnWeight="1"
+            tools:text="Rainy"
             app:layout_gravity="fill_horizontal"
-            tools:text="Rainy" />
+            android:layout_margin="1dp" />
+        <!--layout_margin=1dp hack in order to keep the gridlayout from over expanding-->
 
         <TextView
             android:id="@+id/list_item_low_textview"
