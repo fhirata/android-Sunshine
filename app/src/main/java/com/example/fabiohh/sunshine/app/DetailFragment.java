@@ -10,6 +10,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -102,9 +104,9 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
 
-        if (getActivity().findViewById(R.id.windmill) != null) {
-            getActivity().findViewById(R.id.windmill).startAnimation(AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotation));
-        }
+//        if (getActivity().findViewById(R.id.windmill) != null) {
+//            getActivity().findViewById(R.id.windmill).startAnimation(AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotation));
+//        }
 
         Intent receivingIntent = getActivity().getIntent();
         if (receivingIntent != null) {
@@ -128,7 +130,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
             mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
         }
 
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        return inflater.inflate(R.layout.fragment_detail_start, container, false);
     }
 
     private Intent createShareIntent() {
@@ -142,17 +144,22 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (mUri == null) {
-            return null;
+        if (mUri != null) {
+            return new CursorLoader(
+                    getActivity(),
+                    mUri,
+                    DETAIL_COLUMNS,
+                    null,
+                    null,
+                    null
+            );
         }
-        return new CursorLoader(
-                getActivity(),
-                mUri,
-                DETAIL_COLUMNS,
-                null,
-                null,
-                null
-        );
+
+        ViewParent vp = getView().getParent();
+        if (vp instanceof CardView) {
+            ((View)vp).setVisibility(View.INVISIBLE);
+        }
+        return null;
     }
 
     public void setWindSpeed(int speed) {
@@ -166,70 +173,74 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (!data.moveToFirst()) {
-            return;
-        }
+        if (data != null && data.moveToFirst()) {
 
-        Context context = this.getActivity();
-
-        String dateString = Utility.formatDate(
-                data.getLong(COL_WEATHER_DATE));
-
-        String weatherDesc = data.getString(COL_WEATHER_DESC);
-        int weatherCode = data.getInt(COL_WEATHER_CONDITION_ID);
-
-        boolean isMetric = Utility.isMetric(getActivity());
-
-        String humidityString = data.getString(COL_WEATHER_HUMIDITY);
-        String pressureString = data.getString(COL_WEATHER_PRESSURE);
-        double windDouble = data.getDouble(COL_WEATHER_WIND_SPEED);
-
-        TextView highTextView = (TextView)getView().findViewById(R.id.list_item_high_textview);
-        highTextView.setText(Utility.formatTemperature(context, data.getDouble(COL_WEATHER_MAX_TEMP), isMetric));
-
-        TextView lowTextView = (TextView)getView().findViewById(R.id.list_item_low_textview);
-        lowTextView.setText(Utility.formatTemperature(context, data.getDouble(COL_WEATHER_MIN_TEMP), isMetric));
-
-        TextView dateTextView = (TextView)getView().findViewById(R.id.list_item_date_textview);
-        dateTextView.setText(dateString);
-
-        ImageView iconImageView = (ImageView)getView().findViewById(R.id.list_item_icon);
-        iconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherCode));
-
-        iconImageView.setContentDescription(weatherDesc);
-        TextView weatherTextView = (TextView)getView().findViewById(R.id.list_item_forecast_textview);
-        weatherTextView.setText(weatherDesc);
-
-        TextView humidityTextView = (TextView)getView().findViewById((R.id.detail_humidity_textview));
-        humidityTextView.setText(context.getString(R.string.humidity_label) + ": " + humidityString);
-
-        TextView windTextView = (TextView)getView().findViewById(R.id.detail_wind_textview);
-        windTextView.setText(context.getString(R.string.wind_label) + ": " + Utility.formatWindSpeed(context, windDouble, isMetric));
-
-        TextView pressureTextView = (TextView)getView().findViewById(R.id.detail_pressure_textview);
-        pressureTextView.setText(context.getString(R.string.pressure_label) + ": " + pressureString);
-
-        if (cityName != null && !cityName.isEmpty()) {
-            TextView locationTextView = (TextView) getView().findViewById(R.id.detail_location_textview);
-            if (locationTextView != null) {
-                locationTextView.setText(context.getString(R.string.location_label) + ": " + cityName);
+            ViewParent vp = getView().getParent();
+            if (vp instanceof CardView) {
+                ((View) vp).setVisibility(View.VISIBLE);
             }
-        }
 
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(createShareIntent());
-        }
+            Context context = this.getActivity();
 
-        if (getActivity().findViewById(R.id.windmill) != null) {
-            Animation rotation = AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotation);
-            originalSpeed = convertWindSpeed(windDouble);
-            rotation.setDuration((long) originalSpeed);
-            getActivity().findViewById(R.id.windmill).setAnimation(rotation);
-        }
+            String dateString = Utility.formatDate(
+                    data.getLong(COL_WEATHER_DATE));
 
-        // Start audio capturing for "sound of wind"
-        audio = new Audio(this, windDouble);
-        audio.execute();
+            String weatherDesc = data.getString(COL_WEATHER_DESC);
+            int weatherCode = data.getInt(COL_WEATHER_CONDITION_ID);
+
+            boolean isMetric = Utility.isMetric(getActivity());
+
+            String humidityString = data.getString(COL_WEATHER_HUMIDITY);
+            String pressureString = data.getString(COL_WEATHER_PRESSURE);
+            double windDouble = data.getDouble(COL_WEATHER_WIND_SPEED);
+
+            TextView highTextView = (TextView) getView().findViewById(R.id.list_item_high_textview);
+            highTextView.setText(Utility.formatTemperature(context, data.getDouble(COL_WEATHER_MAX_TEMP), isMetric));
+
+            TextView lowTextView = (TextView) getView().findViewById(R.id.list_item_low_textview);
+            lowTextView.setText(Utility.formatTemperature(context, data.getDouble(COL_WEATHER_MIN_TEMP), isMetric));
+
+            TextView dateTextView = (TextView) getView().findViewById(R.id.list_item_date_textview);
+            dateTextView.setText(dateString);
+
+            ImageView iconImageView = (ImageView) getView().findViewById(R.id.list_item_icon);
+            iconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherCode));
+
+            iconImageView.setContentDescription(weatherDesc);
+            TextView weatherTextView = (TextView) getView().findViewById(R.id.list_item_forecast_textview);
+            weatherTextView.setText(weatherDesc);
+
+            TextView humidityTextView = (TextView) getView().findViewById((R.id.detail_humidity_textview));
+            humidityTextView.setText(context.getString(R.string.humidity_label) + ": " + humidityString);
+
+            TextView windTextView = (TextView) getView().findViewById(R.id.detail_wind_textview);
+            windTextView.setText(context.getString(R.string.wind_label) + ": " + Utility.formatWindSpeed(context, windDouble, isMetric));
+
+            TextView pressureTextView = (TextView) getView().findViewById(R.id.detail_pressure_textview);
+            pressureTextView.setText(context.getString(R.string.pressure_label) + ": " + pressureString);
+
+            if (cityName != null && !cityName.isEmpty()) {
+//            TextView locationTextView = (TextView) getView().findViewById(R.id.detail_location_textview);
+//            if (locationTextView != null) {
+//                locationTextView.setText(context.getString(R.string.location_label) + ": " + cityName);
+//            }
+            }
+
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(createShareIntent());
+            }
+
+//        if (getActivity().findViewById(R.id.windmill) != null) {
+//            Animation rotation = AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotation);
+//            originalSpeed = convertWindSpeed(windDouble);
+//            rotation.setDuration((long) originalSpeed);
+//            getActivity().findViewById(R.id.windmill).setAnimation(rotation);
+//        }
+//
+//        // Start audio capturing for "sound of wind"
+//        audio = new Audio(this, windDouble);
+//        audio.execute();
+        }
     }
 
     public static double convertWindSpeed(double windDouble) {
@@ -239,7 +250,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
     public void blowAwayViews() {
         Animation rotate_out = AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotate_out);
         rotate_out.setDuration(1000);
-        getActivity().findViewById(R.id.windmill).startAnimation(rotate_out);
+//        getActivity().findViewById(R.id.windmill).startAnimation(rotate_out);
 
         getActivity().findViewById(R.id.list_item_forecast_textview).startAnimation(rotate_out);
         getActivity().findViewById(R.id.list_item_icon).startAnimation(rotate_out);

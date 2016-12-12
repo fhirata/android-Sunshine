@@ -90,7 +90,7 @@ public class Audio extends AsyncTask<Void, Pair, Integer> {
 
         Animation rotation = AnimationUtils.loadAnimation(fragment.getActivity(), R.anim.rotation);
         rotation.setDuration((long) fragment.convertWindSpeed(newSpeed));
-        fragment.getView().findViewById(R.id.windmill).setAnimation(rotation);
+//        fragment.getView().findViewById(R.id.windmill).setAnimation(rotation);
         fragment.setWindSpeed((int) newSpeed);
 
         if (pairs.second) {
