@@ -59,7 +59,7 @@
         tools:text="Rainy" />
 
     <TextView
-        android:id="@+id/detail_low_textview"
+            android:id="@+id/detail_low_textview"
         android:layout_width="0dp"
         android:layout_marginBottom="@dimen/abc_list_item_padding_horizontal_material"
         android:fontFamily="sans-serif-light"

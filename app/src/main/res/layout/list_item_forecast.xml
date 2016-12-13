@@ -19,7 +19,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/list_item_icon"
+            android:id="@+id/detail_icon"
             android:layout_gravity="center"
             android:layout_width="@dimen/list_icon"
             android:layout_height="40dp"
@@ -35,14 +35,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/list_item_date_textview"
+                android:id="@+id/detail_date_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/primary_text"/>
 
             <TextView
-                android:id="@+id/list_item_forecast_textview"
+                android:id="@+id/detail_forecast_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -50,7 +50,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/list_item_high_textview"
+            android:id="@+id/detail_high_textview"
             android:layout_width="@dimen/forecast_text_width"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -61,7 +61,7 @@
             android:textSize="@dimen/forecast_text_size"/>
 
         <TextView
-            android:id="@+id/list_item_low_textview"
+            android:id="@+id/detail_low_textview"
             android:layout_width="@dimen/forecast_text_width"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

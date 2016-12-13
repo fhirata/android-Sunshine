@@ -194,20 +194,20 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
             String pressureString = data.getString(COL_WEATHER_PRESSURE);
             double windDouble = data.getDouble(COL_WEATHER_WIND_SPEED);
 
-            TextView highTextView = (TextView) getView().findViewById(R.id.list_item_high_textview);
+            TextView highTextView = (TextView) getView().findViewById(R.id.detail_high_textview);
             highTextView.setText(Utility.formatTemperature(context, data.getDouble(COL_WEATHER_MAX_TEMP), isMetric));
 
-            TextView lowTextView = (TextView) getView().findViewById(R.id.list_item_low_textview);
+            TextView lowTextView = (TextView) getView().findViewById(R.id.detail_low_textview);
             lowTextView.setText(Utility.formatTemperature(context, data.getDouble(COL_WEATHER_MIN_TEMP), isMetric));
 
-            TextView dateTextView = (TextView) getView().findViewById(R.id.list_item_date_textview);
+            TextView dateTextView = (TextView) getView().findViewById(R.id.detail_date_textview);
             dateTextView.setText(dateString);
 
-            ImageView iconImageView = (ImageView) getView().findViewById(R.id.list_item_icon);
+            ImageView iconImageView = (ImageView) getView().findViewById(R.id.detail_icon);
             iconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherCode));
 
             iconImageView.setContentDescription(weatherDesc);
-            TextView weatherTextView = (TextView) getView().findViewById(R.id.list_item_forecast_textview);
+            TextView weatherTextView = (TextView) getView().findViewById(R.id.detail_forecast_textview);
             weatherTextView.setText(weatherDesc);
 
             TextView humidityTextView = (TextView) getView().findViewById((R.id.detail_humidity_textview));
@@ -252,15 +252,15 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
         rotate_out.setDuration(1000);
 //        getActivity().findViewById(R.id.windmill).startAnimation(rotate_out);
 
-        getActivity().findViewById(R.id.list_item_forecast_textview).startAnimation(rotate_out);
-        getActivity().findViewById(R.id.list_item_icon).startAnimation(rotate_out);
+        getActivity().findViewById(R.id.detail_forecast_textview).startAnimation(rotate_out);
+        getActivity().findViewById(R.id.detail_icon).startAnimation(rotate_out);
 
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         boolean mayInterruptIfRunning = true;
-        audio.cancel(mayInterruptIfRunning);
+//        audio.cancel(mayInterruptIfRunning);
     }
 
     @Override

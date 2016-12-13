@@ -90,17 +90,19 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // Get a reference to the RecyclerView, and attach this adapter to it.
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.listview_forecast);
 
+        mRecyclerView.setHasFixedSize(true);
+
         // The ForecastAdapter will take data from a source and
         // use it to populate the RecyclerView it's attached to.
         mForecastAdapter = new ForecastAdapter(getActivity(), new ForecastAdapter.ForecastAdapterOnClickHandler() {
             @Override
-            public void onClick(Long date, ForecastAdapter.ForecastViewHolder vh) {
+            public void onClick(Long date, ForecastAdapter.ForecastAdapterViewHolder vh) {
                                     String locationSetting = Utility.getPreferredLocation(getActivity());
                     ((Callback) getActivity())
                             .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                                     locationSetting, date));
 
-                mPosition = vh.getPosition();
+                mPosition = vh.getAdapterPosition();
             }
         }, mEmptyView);
 
