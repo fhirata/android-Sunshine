@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:elevation="@dimen/appbar_elevation">
+    android:elevation="@dimen/appbar_elevation"
+    android:layout_marginTop="@dimen/abc_list_item_padding_horizontal_material">
 
-    <include layout="@layout/list_item_base_forecast_today"
+    <include
+        layout="@layout/list_item_base_forecast_today"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content"/>
 </FrameLayout>
