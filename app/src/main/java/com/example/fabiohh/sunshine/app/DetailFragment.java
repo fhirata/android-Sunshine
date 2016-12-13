@@ -211,13 +211,13 @@ public class DetailFragment extends android.support.v4.app.Fragment implements L
             weatherTextView.setText(weatherDesc);
 
             TextView humidityTextView = (TextView) getView().findViewById((R.id.detail_humidity_textview));
-            humidityTextView.setText(context.getString(R.string.humidity_label) + ": " + humidityString);
+            humidityTextView.setText(humidityString + "%");
 
             TextView windTextView = (TextView) getView().findViewById(R.id.detail_wind_textview);
-            windTextView.setText(context.getString(R.string.wind_label) + ": " + Utility.formatWindSpeed(context, windDouble, isMetric));
+            windTextView.setText(Utility.formatWindSpeed(context, windDouble, isMetric));
 
             TextView pressureTextView = (TextView) getView().findViewById(R.id.detail_pressure_textview);
-            pressureTextView.setText(context.getString(R.string.pressure_label) + ": " + pressureString);
+            pressureTextView.setText(pressureString);
 
             if (cityName != null && !cityName.isEmpty()) {
 //            TextView locationTextView = (TextView) getView().findViewById(R.id.detail_location_textview);

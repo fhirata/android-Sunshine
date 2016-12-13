@@ -42,8 +42,8 @@
         android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
         app:cardElevation="@dimen/detail_card_elevation"
         app:cardPreventCornerOverlap="false"
-        android:paddingLeft="@dimen/abc_action_bar_content_inset_material"
-        android:paddingRight="@dimen/abc_action_bar_content_inset_material"
+        android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingRight="@dimen/abc_list_item_padding_horizontal_material"
         />
 
     <fragment
