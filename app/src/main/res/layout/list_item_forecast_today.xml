@@ -57,8 +57,7 @@
             app:layout_columnWeight="1"
             tools:text="Rainy"
             app:layout_gravity="fill_horizontal"
-            android:layout_margin="1dp" />
-        <!--layout_margin=1dp hack in order to keep the gridlayout from over expanding-->
+            android:maxHeight="30dp"/>
 
         <TextView
             android:id="@+id/list_item_low_textview"
