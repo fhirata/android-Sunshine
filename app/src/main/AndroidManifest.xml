@@ -90,6 +90,9 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCQrWj7TRSia-stI283QGDOh_pdEXjCvhU"/>
     </application>
 
 </manifest>
