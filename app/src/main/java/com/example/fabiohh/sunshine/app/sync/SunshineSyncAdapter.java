@@ -77,16 +77,16 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int INDEX_SHORT_DESC = 3;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID,  LOCATION_STATUS_UNKNOWN})
+    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID,  LOCATION_STATUS_UNKNOWN, LOCATION_STATUS_SERVER_INVALID_LOCATION})
     public @interface LocationStatus {}
 
     public static final int LOCATION_STATUS_OK = 0;
     public static final int LOCATION_STATUS_SERVER_DOWN = 1;
-    public static final int
-            LOCATION_STATUS_SERVER_INVALID = 2;
-    public static final int
-            LOCATION_STATUS_UNKNOWN = 3;
+    public static final int LOCATION_STATUS_SERVER_INVALID = 2;
+    public static final int LOCATION_STATUS_UNKNOWN = 3;
     public static final int LOCATION_STATUS_SERVER_INVALID_LOCATION = 4;
+
+    public static final String ACTION_DATA_UPDATED = "com.example.fabiohh.sunshine.app.ACTION_DATA_UPDATED";
 
     public  SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -264,10 +264,15 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             notifyWeather();
             deleteOldData();
             setLocationStatus(getContext(), LOCATION_STATUS_OK);
+
+            // send broadcast to update widget
+            Intent dataUpdated = new Intent(ACTION_DATA_UPDATED);
+            getContext().sendBroadcast(dataUpdated);
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
-            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID_LOCATION);
         }
 
     }
@@ -358,7 +363,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 Vector<ContentValues> cVVector = new Vector<>(weatherArray.length());
 
                 if (code == 404) {
-                    setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID_LOCATION);
+                    setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
                 }
                 // OWM returns daily forecasts based upon the local time of the city that is being
                 // asked for, which means that we need to know the GMT offset to translate this data

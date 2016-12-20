@@ -77,4 +77,5 @@
     <string name="pref_art_pack_cute_dogs" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-mdpi/art_%s.png</string>
 
     <string name="pref_current_location_desc" translatable="false">Current location</string>
+    <string name="title_widget_today" translatable="true">Sunshine</string>
 </resources>
