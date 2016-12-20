@@ -86,6 +86,22 @@ public class Utility {
         editor.apply();
     }
 
+    static public boolean isLocationLatLonAvailable(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return !(prefs.getString(context.getString(R.string.pref_lat_location), "").isEmpty()) &&
+                !(prefs.getString(context.getString(R.string.pref_lon_location), "").isEmpty());
+    }
+
+    static public String getLocationLat(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(context.getString(R.string.pref_lat_location), "");
+    }
+
+    static public String getLocationLon(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(context.getString(R.string.pref_lon_location), "");
+    }
+
     public static String formatTemperature(Context context, double temperature, boolean isMetric) {
         double temp;
         if ( !isMetric ) {

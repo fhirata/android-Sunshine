@@ -182,20 +182,34 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             final String FORECAST_BASE_URL =
                     "http://api.openweathermap.org/data/2.5/forecast/daily?";
             final String QUERY_PARAM = "q";
+            final String LAT_PARAM = "lat";
+            final String LON_PARAM = "lon";
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
             final String DAYS_PARAM = "cnt";
             final String APIKEY_PARAM = "appid";
 
-            Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, locationQuery)
-                    .appendQueryParameter(FORMAT_PARAM, format)
+            Uri.Builder uriBuilder = Uri.parse(FORECAST_BASE_URL).buildUpon();
+
+            if (Utility.isLocationLatLonAvailable(this.getContext())) {
+                String latitudeQuery = Utility.getLocationLat(this.getContext());
+                String longitudeQuery = Utility.getLocationLon(this.getContext());
+
+                uriBuilder.appendQueryParameter(LAT_PARAM, latitudeQuery);
+                uriBuilder.appendQueryParameter(LON_PARAM, longitudeQuery);
+            } else {
+                uriBuilder.appendQueryParameter(QUERY_PARAM, locationQuery);
+            }
+
+            uriBuilder.appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNITS_PARAM, units)
                     .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
                     .appendQueryParameter(APIKEY_PARAM, "ce528ad204bac5e4899e547f4ba62323")
                     .build();
 
-            URL url = new URL(builtUri.toString());
+            URL url = new URL(uriBuilder.toString());
+
+            Log.d(LOG_TAG, "fetch URL: " + url);
 
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -488,8 +502,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         // Otherwise, insert it using the content resolver and the base URI
         Cursor locationCursor = getContext().getContentResolver().query(WeatherContract.LocationEntry.CONTENT_URI,
                 new String[]{WeatherContract.LocationEntry._ID},
-                WeatherContract.LocationEntry.COLUMN_CITY_NAME + "=?",
-                new String[]{cityName},
+                WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + "=?",
+                new String[]{locationSetting},
                 null,
                 null);
 

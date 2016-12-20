@@ -1,5 +1,6 @@
 package com.example.fabiohh.sunshine.app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,14 +10,19 @@ import android.preference.EditTextPreference;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
+
+import static com.example.fabiohh.sunshine.app.SettingsActivity.PLACE_PICKER_REQUEST;
 
 /**
  * Created by fabiohh on 11/13/16.
@@ -25,6 +31,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 public class LocationEditTextPreference extends EditTextPreference {
     private int mMinLength = 0;
     private static final int DEFAULT_MINIMUM_LOCATION_LENGTH = 3;
+    private String LOG = LocationEditTextPreference.class.getSimpleName();
 
     public LocationEditTextPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,14 +84,23 @@ public class LocationEditTextPreference extends EditTextPreference {
     }
 
     @Override
-    protected View onCreateView(ViewGroup parent) {
+    protected View onCreateView(final ViewGroup parent) {
         View view = super.onCreateView(parent);
         View currentLocation = view.findViewById(R.id.current_location);
         currentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // We'll use a toast for now so that we can test our new preference widget.
-                Toast.makeText(getContext(), "Woo!", Toast.LENGTH_LONG).show();
+                Context context = getContext();
+                Activity settingsActivity = (SettingsActivity) context;
+                try {
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    settingsActivity.startActivityForResult(builder.build(settingsActivity), PLACE_PICKER_REQUEST);
+
+                } catch (GooglePlayServicesNotAvailableException | GooglePlayServicesRepairableException e) {
+                    Log.e(LOG, e.getMessage());
+                }
+
+
             }
         });
 

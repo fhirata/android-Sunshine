@@ -81,10 +81,12 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     public void swapCursor(Cursor newCursor) {
         mCursor = newCursor;
-        notifyDataSetChanged();
+
         if (null != mEmptyView) {
             mEmptyView.setVisibility((getItemCount() == 0) ? View.VISIBLE : View.GONE);
         }
+
+        notifyDataSetChanged();
     }
 
     @Override
