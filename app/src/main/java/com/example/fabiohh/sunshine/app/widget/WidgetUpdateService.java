@@ -19,7 +19,7 @@ import com.example.fabiohh.sunshine.app.Utility;
 import com.example.fabiohh.sunshine.app.data.Weather;
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
 
-import static com.example.fabiohh.sunshine.app.R.layout.widget_today;
+import static com.example.fabiohh.sunshine.app.R.layout.widget_today_default;
 import static com.example.fabiohh.sunshine.app.R.layout.widget_today_large;
 import static com.example.fabiohh.sunshine.app.R.layout.widget_today_small;
 import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.NOTIFY_WEATHER_PROJECTION;
@@ -80,7 +80,7 @@ public class WidgetUpdateService extends IntentService {
                 if (widgetWidth >= largeWidth) {
                     layoutId = widget_today_large;
                 } else if (widgetWidth >= defaultWidth) {
-                    layoutId = widget_today;
+                    layoutId = widget_today_default;
                 } else {
                     layoutId = widget_today_small;
                 }
