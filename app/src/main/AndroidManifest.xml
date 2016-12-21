@@ -90,7 +90,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".WidgetUpdateService" />
+        <service android:name=".widget.WidgetUpdateService" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA3fF0MvfFl0MNIgQkf1fZ3QbuU_otW-sI" />

@@ -1,4 +1,4 @@
-package com.example.fabiohh.sunshine.app;
+package com.example.fabiohh.sunshine.app.widget;
 
 import android.app.IntentService;
 import android.app.PendingIntent;
@@ -7,13 +7,21 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.format.Time;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
+import com.example.fabiohh.sunshine.app.MainActivity;
+import com.example.fabiohh.sunshine.app.R;
+import com.example.fabiohh.sunshine.app.Utility;
 import com.example.fabiohh.sunshine.app.data.Weather;
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
-import com.example.fabiohh.sunshine.app.widget.TodayWidgetProvider;
 
+import static com.example.fabiohh.sunshine.app.R.layout.widget_today;
+import static com.example.fabiohh.sunshine.app.R.layout.widget_today_large;
+import static com.example.fabiohh.sunshine.app.R.layout.widget_today_small;
 import static com.example.fabiohh.sunshine.app.sync.SunshineSyncAdapter.NOTIFY_WEATHER_PROJECTION;
 import static java.lang.System.currentTimeMillis;
 
@@ -55,9 +63,29 @@ public class WidgetUpdateService extends IntentService {
             cursor.close();
 
             for (int appWidgetId : appWidgetIds) {
+                int widgetWidth = getResources().getDimensionPixelSize(R.dimen.widget_today_default_width);
+
+                Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+                if (options.containsKey(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) {
+                    int minWidthDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+
+                    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                    widgetWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, minWidthDp, displayMetrics);
+                }
+
+                int defaultWidth = getResources().getDimensionPixelSize(R.dimen.widget_today_default_width);
+                int largeWidth = getResources().getDimensionPixelSize(R.dimen.widget_today_large_width);
+
+                int layoutId;
+                if (widgetWidth >= largeWidth) {
+                    layoutId = widget_today_large;
+                } else if (widgetWidth >= defaultWidth) {
+                    layoutId = widget_today;
+                } else {
+                    layoutId = widget_today_small;
+                }
                 RemoteViews views = new RemoteViews(
-                        getBaseContext().getPackageName(),
-                        R.layout.widget_today);
+                        getBaseContext().getPackageName(), layoutId);
 
                 // intent to launch app
                 Intent openWidgetIntent = new Intent(getBaseContext(), MainActivity.class);
@@ -66,8 +94,11 @@ public class WidgetUpdateService extends IntentService {
 
                 // set widget dynamic information
                 views.setImageViewResource(R.id.widget_image, weatherEntry.getIconId());
-                views.setTextViewText(R.id.widget_forecast_textview,
+                views.setTextViewText(R.id.widget_forecast_textview, weatherEntry.getDesc());
+                views.setTextViewText(R.id.widget_high_textview,
                         Utility.formatTemperature(this, weatherEntry.getHigh(), weatherEntry.isMetric()));
+                views.setTextViewText(R.id.widget_low_textview,
+                        Utility.formatTemperature(this, weatherEntry.getLow(), weatherEntry.isMetric()));
 
                 appWidgetManager.updateAppWidget(appWidgetId, views);
             }
