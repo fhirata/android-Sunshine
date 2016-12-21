@@ -90,23 +90,35 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".widget.WidgetUpdateService" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA3fF0MvfFl0MNIgQkf1fZ3QbuU_otW-sI" />
+        <service android:name=".widget.WidgetUpdateService" />
         <receiver
             android:name=".widget.TodayWidgetProvider"
-            android:label="@string/title_widget_today">
+            android:label="@string/widget_title_today">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.fabiohh.sunshine.app.ACTION_DATA_UPDATED" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/weatherwidget" />
+                android:resource="@xml/widget_today" />
         </receiver>
         <service android:name=".widget.DetailWidgetRemoteViewsService"
+            android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <receiver
+            android:name=".widget.DetailWidgetProvider"
+            android:label="Detail Sunshine">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.fabiohh.sunshine.app.ACTION_DATA_UPDATED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_detail" />
+        </receiver>
     </application>
 
 </manifest>
