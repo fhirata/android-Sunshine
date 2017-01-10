@@ -119,6 +119,16 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_detail" />
         </receiver>
+        <service android:name=".muzei.WeatherMuzeiSource"
+            android:icon="@drawable/ic_clear"
+            android:label="@string/app_name"
+            android:enabled="true"
+            android:description="@string/muzei_description">
+            <intent-filter>
+                <action android:name="com.google.android.apps.muzei.api.MuzeiArtSource" />
+            </intent-filter>
+            <meta-data android:name="color" android:value="@color/sunshine_blue" />
+        </service>
     </application>
 
 </manifest>

@@ -79,4 +79,5 @@
     <string name="pref_current_location_desc" translatable="false">Current location</string>
     <string name="widget_title_today" translatable="true">Sunshine</string>
     <string name="widget_empty_list" translatable="true">Weather Unavailable</string>
+    <string name="muzei_description" translatable="true">Muzei</string>
 </resources>
