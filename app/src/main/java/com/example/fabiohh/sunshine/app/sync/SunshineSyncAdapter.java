@@ -31,6 +31,7 @@ import com.example.fabiohh.sunshine.app.R;
 import com.example.fabiohh.sunshine.app.Utility;
 import com.example.fabiohh.sunshine.app.data.Weather;
 import com.example.fabiohh.sunshine.app.data.WeatherContract;
+import com.example.fabiohh.sunshine.app.muzei.WeatherMuzeiSource;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -268,6 +269,9 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             // send broadcast to update widget
             Intent dataUpdated = new Intent(ACTION_DATA_UPDATED);
             getContext().sendBroadcast(dataUpdated);
+
+            // send broadcast to update Muzei's wallpaper
+            getContext().startService(new Intent(ACTION_DATA_UPDATED).setClass(getContext(), WeatherMuzeiSource.class));
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
