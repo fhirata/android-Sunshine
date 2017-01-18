@@ -4,8 +4,8 @@ Sunshine is the companion Android app for the Udacity course [Developing Android
 
 ## Screen Shots
 ===============
-![Alt](/images/detail_land.png "Sunshine Landscape Detail screenshot")
-![Alt](/images/detail_portrait.png "Sunshine Portrait Detail screenshot")
+![Alt](/images/detailed_land.png "Sunshine Landscape Detail screenshot")
+![Alt](/images/detailed_portrait.png "Sunshine Portrait Detail screenshot")
 ![Alt](/images/forecast.png "Sunshine Forecast screenshot")
 
 ## Covered material
