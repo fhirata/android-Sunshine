@@ -3,13 +3,11 @@ Sunshine
 Sunshine is the companion Android app for the Udacity course [Developing Android Apps: Android Fundamentals](https://www.udacity.com/course/ud853).
 
 ## Screen Shots
-===============
 ![Alt](/images/detailed_land.png "Sunshine Landscape Detail screenshot")
 ![Alt](/images/detailed_portrait.png "Sunshine Portrait Detail screenshot")
 ![Alt](/images/forecast.png "Sunshine Forecast screenshot")
 
 ## Covered material
-===================
 This application provided the opportunity to touch on the following Android material:
 - Activity/Fragments lifecycles
 - Layouts types and Responsive Layouts
@@ -27,3 +25,17 @@ This application provided the opportunity to touch on the following Android mate
 - Widgets and Wallpaper integration with Muzei
 
 For the original version, please go to the Udacity github [here](https://github.com/udacity/Sunshine).
+
+## More Screen Shots
+### Notification
+![Alt](/images/notification_firebase.png "Notifications")
+
+### Muzei Wallpaper integration
+![Alt](/images/wallpaper_integration.png "Muzei Wallpaper integration")
+![Alt](/images/wallpaper_integration2.png "Muzei Wallpaper integration through content providers")
+
+### Location Widget Integration
+![Alt](/images/location_widget.png "Google Location Widget")
+
+### Preferences page
+![Alt](/images/preferences_page.png "Preferences page")
