@@ -1,16 +1,41 @@
 Sunshine
 ========
-
 Sunshine is the companion Android app for the Udacity course [Developing Android Apps: Android Fundamentals](https://www.udacity.com/course/ud853).
 
-Take the course to find out how to build this app a step at a time, and eventually create your own Android App!
+## Screen Shots
+![Alt](/images/detailed_land.png "Sunshine Landscape Detail screenshot")
+![Alt](/images/detailed_portrait.png "Sunshine Portrait Detail screenshot")
+![Alt](/images/forecast.png "Sunshine Forecast screenshot")
 
-This is the second version of the Sunshine code. The repository has been updated on:
+## Covered material
+This application provided the opportunity to touch on the following Android material:
+- Activity/Fragments lifecycles
+- Layouts types and Responsive Layouts
+- List/RecyclerViews and ViewHolder pattern
+- Adapters (e.g. CursorAdapters)
+- AsyncTasks
+- Menus
+- Material Design
+- SharedPreferences
+- SQLite, projections, and Content Providers
+- Broadcast Intents
+- SyncAdapters
+- Background Services and Notification
+- GCM and Firebase
+- Widgets and Wallpaper integration with Muzei
 
-* **February 13th, 2015** - Major update
-* February 25, 2015 - Minor bug fixes
-* March 4th, 2015 - Minor bug fixes
+For the original version, please go to the Udacity github [here](https://github.com/udacity/Sunshine).
 
-For the original version, please go [here](https://github.com/udacity/Sunshine).
+## More Screen Shots
+### Notification
+![Alt](/images/notification_firebase.png "Notifications")
 
-A changelog for the course can be found [here](https://docs.google.com/a/knowlabs.com/document/d/193xJb_OpcNCqgquMhxPrMh05IEYFXQqt0S6-6YK8gBw/pub).
+### Muzei Wallpaper integration
+![Alt](/images/wallpaper_integration.png "Muzei Wallpaper integration")
+![Alt](/images/wallpaper_integration2.png "Muzei Wallpaper integration through content providers")
+
+### Location Widget Integration
+![Alt](/images/location_widget.png "Google Location Widget")
+
+### Preferences page
+![Alt](/images/preferences_page.png "Preferences page")
