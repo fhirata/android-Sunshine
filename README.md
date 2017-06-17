@@ -24,8 +24,6 @@ This application provided the opportunity to touch on the following Android mate
 - GCM and Firebase
 - Widgets and Wallpaper integration with Muzei
 
-For the original version, please go to the Udacity github [here](https://github.com/udacity/Sunshine).
-
 ## More Screen Shots
 ### Notification
 ![Alt](/images/notification_firebase.png "Notifications")
